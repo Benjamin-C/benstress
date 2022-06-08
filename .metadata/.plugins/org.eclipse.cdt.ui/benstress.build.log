@@ -1,0 +1,15 @@
+13:09:10 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+
+13:09:11 Build Finished. 0 errors, 0 warnings. (took 623ms)
+

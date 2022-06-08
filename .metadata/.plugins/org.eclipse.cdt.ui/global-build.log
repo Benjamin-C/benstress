@@ -1,0 +1,270 @@
+10:46:12 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:03:31 **** Incremental Build of configuration Debug for project benstress ****
+make all 
+make: Nothing to be done for 'all'.
+11:47:19 **** Incremental Build of configuration Debug for project benstress ****
+make all 
+make: Nothing to be done for 'all'.
+11:48:37 **** Incremental Build of configuration Debug for project benstress ****
+make all 
+make: Nothing to be done for 'all'.
+11:48:49 **** Incremental Build of configuration Debug for project benstress ****
+make all 
+make: Nothing to be done for 'all'.
+11:48:59 **** Incremental Build of configuration Debug for project benstress ****
+make all 
+make: Nothing to be done for 'all'.
+11:50:33 **** Incremental Build of configuration Debug for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:50:51 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:76:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   76 |  int num;
+      |      ^~~
+../benstress.cpp:94:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   94 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:51:07 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stress(long int)’:
+../benstress.cpp:26:21: warning: format ‘%g’ expects argument of type ‘double’, but argument 2 has type ‘long int’ [-Wformat=]
+   26 |  printf("Stressing %g... ", param);
+      |                    ~^       ~~~~~
+      |                     |       |
+      |                     double  long int
+      |                    %ld
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:76:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   76 |  int num;
+      |      ^~~
+../benstress.cpp:94:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   94 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:51:21 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:76:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   76 |  int num;
+      |      ^~~
+../benstress.cpp:94:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   94 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:51:50 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:77:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   77 |  int num;
+      |      ^~~
+../benstress.cpp:95:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   95 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:52:17 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:77:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   77 |  int num;
+      |      ^~~
+../benstress.cpp:95:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   95 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:54:40 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:78:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   78 |  int num;
+      |      ^~~
+../benstress.cpp:96:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   96 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:55:27 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:80:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   80 |  int num;
+      |      ^~~
+../benstress.cpp:98:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   98 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:56:07 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp: In function ‘void stressTask(int, int, long int, bool)’:
+../benstress.cpp:79:6: warning: ‘num’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   79 |  int num;
+      |      ^~~
+../benstress.cpp:97:7: warning: ‘sum’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   97 |  long dur = sum / num;
+      |       ^~~
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+11:59:36 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+13:05:38 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+../benstress.cpp:25:37: error: use of deleted function ‘std::atomic<int>::atomic(const std::atomic<int>&)’
+   25 | static atomic<int> runningThreads = 0;
+      |                                     ^
+In file included from ../benstress.cpp:13:
+/usr/include/c++/9/atomic:755:7: note: declared here
+  755 |       atomic(const atomic&) = delete;
+      |       ^~~~~~
+/usr/include/c++/9/atomic:759:17: note:   after user-defined conversion: ‘constexpr std::atomic<int>::atomic(std::atomic<int>::__integral_type)’
+  759 |       constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+      |                 ^~~~~~
+make: *** [subdir.mk:20: benstress.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+13:05:52 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+13:08:06 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+13:08:46 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 
+13:09:10 **** Incremental Build of configuration Release for project benstress ****
+make all 
+Building file: ../benstress.cpp
+Invoking: GCC C++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"benstress.d" -MT"benstress.o" -o "benstress.o" "../benstress.cpp"
+Finished building: ../benstress.cpp
+ 
+Building target: benstress
+Invoking: GCC C++ Linker
+g++  -o "benstress"  ./benstress.o   -lpthread
+Finished building target: benstress
+ 

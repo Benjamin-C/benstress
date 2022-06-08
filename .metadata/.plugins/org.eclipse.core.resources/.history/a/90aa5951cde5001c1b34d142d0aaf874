@@ -1,0 +1,236 @@
+package dev.orangeben;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class BenStress {
+	
+	private static volatile int runningThreads = 0;
+	private static volatile boolean go;
+	private static volatile long starttime;
+	private static volatile long runtime;
+	private static volatile boolean doneSignal = false;
+	private static volatile Object shutdownWaiter;
+	
+	public static void main(String[] args) {
+		System.out.printf("%.3e\n", getCPUspeed());
+		
+		int threadCount = 4;
+		long param = (long) 4.1234e8;
+		int runs = 0;
+		boolean verbose = false;
+		
+		for(String a : args) {
+			System.out.println(a);
+		}
+
+		for(int i = 1; i < args.length; i++) {
+			if(args[i].charAt(0) == '-') {
+				if(i+1 < args.length){ // Stuff that has a paramater
+					System.out.println(args[i].charAt(1));
+					switch(args[i].charAt(1)) {
+					case 't': {
+						threadCount = Integer.parseInt(args[i+1]);
+						System.out.println("Thead count is now " + threadCount);
+					} break;
+					case 'p': {
+						param = (long) Double.parseDouble(args[i+1]);
+						System.out.println("Param is now " + param);
+					} break;
+					case 'r': {
+						runs = Integer.parseInt(args[i+1]);
+						System.out.println("Runs is now " + runs);
+					} break;
+					default: break; // Do nothing if we don't know what to do
+					}
+				}
+				switch(args[i].charAt(1)) { // Stuff without a paramater
+				case 'v': {
+					verbose = true;
+				} break;
+				case 'h': {
+					System.out.println("No help for you!");
+					return;
+				}
+				default: break; // Do nothing if we don't know what to do
+				}
+			}
+		}
+		shutdownWaiter = new Object();
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+	        public void run() {
+	            try {
+	                if(!doneSignal) {
+		                System.out.println("Stopping ...");
+		                go = false;
+	                	doneSignal = true;
+		                synchronized(shutdownWaiter) {
+		                	shutdownWaiter.wait();
+		                }
+	                }
+	            } catch (InterruptedException e) {
+	                Thread.currentThread().interrupt();
+	                e.printStackTrace();
+	            }
+	        }
+	    });
+		
+		starttime = System.currentTimeMillis();
+		System.out.printf("Started at %s\n", java.time.LocalDateTime.now());
+
+		String rcts = makePrefix(param);
+
+		System.out.printf("Testing on %d thread%s", threadCount, (threadCount > 1) ? "s " : " ");
+		if(runs > 0) {
+			System.out.printf("for %d run%s", runs, (runs > 0) ? "s " : " ");
+		}
+		System.out.printf("with %s iterations per run\n", rcts);
+
+		go = true;
+		Thread threads[] = new Thread[threadCount];
+		for(int i = 0; i < threadCount; i++) {
+			final int id = i;
+			final int r = runs;
+			final long p = param;
+			final boolean v = verbose;
+			threads[i] = new Thread() {
+				@Override
+				public void run() {
+					stressTask(id, r, p, v);
+				}
+			};
+			threads[i].start();
+		}
+		
+		while(runningThreads < threadCount) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		};
+
+		System.out.printf("Stressing ... !\n");
+
+		for(int i = 0; i < threadCount; i++) {
+			try {
+				threads[i].join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		double avgt = (runtime / threadCount) / 1e6 ;
+
+		System.out.printf("Average time: %.6f seconds\n", avgt);
+		System.out.printf("All cleaned up\n");
+		if(doneSignal) {
+			synchronized (shutdownWaiter) {
+				shutdownWaiter.notify();
+			}
+		} else {
+			doneSignal = true;
+		}
+	}
+	
+	private static String makePrefix(long param) {
+		return Long.toString(param);
+	}
+	
+	private static void stressTask(int id, int runs, long stressparam, boolean print) {
+		runningThreads++;
+		if(print) {
+			System.out.printf("[%d] I stress you!\n", id);
+		}
+		int num = 0;
+		long sum = 0;
+		boolean forever = false;
+		if(runs == 0) {
+			forever = true;
+		}
+		while(go && (runs-- >= 0 || forever)) {
+			long start = System.nanoTime();
+			stress(stressparam);
+			long end = System.nanoTime();
+			long microseconds = (end - start) / 1000;
+			sum += microseconds;
+			num++;
+			if(print) {
+				long stime = System.currentTimeMillis() - starttime;
+				System.out.printf("%d\t%d\t%.6f\t%.0f\n", stime, id, microseconds / 1e6, getCPUspeed());
+			}
+		}
+		long dur = sum / num;
+		runtime += dur;
+		runningThreads--;
+		if(print) {
+			System.out.printf("[% 2d] All done! %.6f\n", id, (dur / 1e6));
+		}
+	}
+	
+	public static double getCPUspeed() {
+		return getCPUspeed(-1);
+	}
+	/**
+	 * Gets the current speed of the CPU. If cid is specified >= 0, the speed of that core will be returned if that core exists.
+	 * Otherwise, the average speed will be returned.
+	 * @param cid the int ID of the core to measure. Use -1 for average speed
+	 * @return The double speed of the core / average in Hz, or 0 if something went wrong
+	 */
+	public static double getCPUspeed(int cid) {
+		try {
+			File cpuinfo = new File("/proc/cpuinfo");
+			Scanner myReader = new Scanner(cpuinfo);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				if(cid >= 0) {
+					if(data.contains("processor	:")) {
+						try {
+							int cpuid = Integer.parseInt(data.split(": ")[1]);
+							if(cpuid == cid) {
+								while (myReader.hasNextLine()) {
+									data = myReader.nextLine();
+									if(data.contains("cpu MHz		:")) {
+										double hz = Double.parseDouble(data.split(": ")[1]) * 1e6;
+										myReader.close();
+										return hz;
+									}
+								}
+							}
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+				} else {
+					double spd = 0;
+					int ct = 0;
+					while (myReader.hasNextLine()) {
+						data = myReader.nextLine();
+						if(data.contains("cpu MHz		:")) {
+							double hz = Double.parseDouble(data.split(": ")[1]) * 1e6;
+							spd += hz;
+							ct++;
+						}
+					}
+					myReader.close();
+					return spd / ct;
+				}
+			}
+			myReader.close();
+			return 0;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	private static void stress(long param) {
+		int x = 1;
+		int y = 1;
+		for(long i = 0; i < param; i++) {
+			x += y + 1;
+			y += x - ((i+1) * y);
+		}
+	}
+}
