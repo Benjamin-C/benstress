@@ -37,6 +37,16 @@ public class BenStress {
 		long param = (long) 4.1234e8;	// Stress parameter controlling length of each test
 		int runs = 0;					// The number of test runs to do 0=infinite
 		boolean verbose = false;		// To print verbose output or not
+		String stressorName = "";
+		Stressor stressor = (stressparam) -> {
+			int x = 1;
+			int y = 1;
+			// Some math to make the CPU work. Hopefully the Java compiler won't just remove it ...
+			for(long i = 0; i < stressparam; i++) {
+				x += y + 1;
+				y += x - ((i+1) * y);
+			}
+		};;
 		
 		// Parse args
 		for(int i = 0; i < args.length; i++) {
@@ -53,6 +63,21 @@ public class BenStress {
 					case 'r': {
 						runs = Integer.parseInt(args[i+1]);
 					} break;
+					case 's': {
+						switch(args[i+1].charAt(0)) {
+						case 'p':
+							stressor = (sp) -> {
+								int a = 0;
+								for(int j = 0; j >= 0; j++) {
+									a++;
+									a%=255;
+								}
+							};
+							param = 0;
+							stressorName = "PeterStressor";
+						break;
+						}
+					}
 					default: break; // Do nothing if we don't know what to do with this flag
 					}
 				}
@@ -61,7 +86,7 @@ public class BenStress {
 					verbose = true;
 				} break;
 				case 'h': {
-					System.out.println("BenStress (Java) - Stress your computer!");
+					System.out.println("BenStress (Java) V1.1 - Stress your computer!");
 					System.out.println("Usage: java -jar benstress.jar -t 4 -c 8 -p 2e8 -v");
 					System.out.println("\tRun the stress test with 4 threads, 8 itterations per thread,");
 					System.out.println("\ta stress paramater of 2x10^8 and verbose output");
@@ -71,6 +96,7 @@ public class BenStress {
 					System.out.println("\t   ctl+c to stop. Defaults to 5");
 					System.out.println("\tp: The stress paramater. Defaults to 4.123e8");
 					System.out.println("\tv: Print each result to sysout rather than just the final average");
+					System.out.println("\ts: Selects the stressing algorithm to use. Currently only 'p' is supported");
 					return;
 				}
 				default: break; // Do nothing if we don't know what to do
@@ -108,7 +134,13 @@ public class BenStress {
 		if(runs > 0) {
 			System.out.printf("for %d run%s", runs, (runs > 0) ? "s " : " ");
 		}
-		System.out.printf("with %s iterations per run\n", makePrefix(param));
+		if(param != 0) {
+			System.out.printf("with stress paramater %s ", makePrefix(param));
+		}
+		if(!stressorName.equals("")) {
+			System.out.println("using " + stressorName);
+		}
+		System.out.println();
 
 		// You may test now
 		go = true;
@@ -120,10 +152,11 @@ public class BenStress {
 			final int r = runs;
 			final long p = param;
 			final boolean v = verbose;
+			final Stressor s = stressor;
 			threads[i] = new Thread() {
 				@Override
 				public void run() {
-					stressTask(id, r, p, v);
+					stressTask(id, r, p, v, s);
 				}
 			};
 			threads[i].start();
@@ -163,22 +196,6 @@ public class BenStress {
 			}
 		} else { // If we did finish before the shutdown signal was sent
 			doneSignal = true;
-		}
-	}
-	
-	/** Actually does the stressing. It's just some randomish algorithm I came up with.
-	 * The parameter affects how long each test takes. Test (should) be comparable between different
-	 * runs with the same parameter
-	 * 
-	 * @param param The long parameter to control the length of the test
-	 */
-	private static void stress(long param) {
-		int x = 1;
-		int y = 1;
-		// Some math to make the CPU work. Hopefully the Java compiler won't just remove it ...
-		for(long i = 0; i < param; i++) {
-			x += y + 1;
-			y += x - ((i+1) * y);
 		}
 	}
 	
@@ -254,7 +271,7 @@ public class BenStress {
 	 * @param stressparam	The long parameter passed to the stress test
 	 * @param print			The boolean to print verbose output or not
 	 */
-	private static void stressTask(int id, int runs, long stressparam, boolean print) {
+	private static void stressTask(int id, int runs, long stressparam, boolean print, Stressor stressor) {
 		// Mark that the thread has started
 		runningThreads++;
 		// Say hi
@@ -274,7 +291,7 @@ public class BenStress {
 		while(go && (runs-- >= 0 || forever)) {
 			// Time how long each stress takes
 			long start = System.nanoTime();
-			stress(stressparam);
+			stressor.run(stressparam);
 			long end = System.nanoTime();
 			long microseconds = (end - start) / 1000;
 			sum += microseconds;
